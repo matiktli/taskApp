@@ -27,7 +27,7 @@
       "supportsTablet": true
     },
     "android": {
-	"package": "com.matikitli"	    
+      "package": "com.matikitli"
     }
   }
 }
