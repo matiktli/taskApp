@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet } from "react-native";
-import { TaskView } from "./task-view/TaskView";
+import { TaskCard } from "./task-view/TaskCard";
 import styled from "styled-components/native";
+import { TaskList } from "./task-view/TaskList";
 
 export default class HomePage extends Component {
   render() {
     return (
       <Container>
         <Title> Get things done !</Title>
-        <TaskView name="This is first task!"></TaskView>
+        <TaskList></TaskList>
       </Container>
     );
   }
