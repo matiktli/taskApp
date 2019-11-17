@@ -1,64 +1,85 @@
 import * as React from "react";
 import styled from "styled-components/native";
-import Icon from "react-native-vector-icons/Feather";
+import IconF from "react-native-vector-icons/Feather";
+import IconM from "react-native-vector-icons/MaterialIcons";
 import { ReminderBadge } from "./ReminderBadge";
 
-export const TaskCard = props => (
-  <Container>
+export const TaskCard = ({ title, body, isDone }) => (
+  <Container isDone={isDone}>
     <HeaderContainer>
-      <TaskTitle>{props.taskTitle}</TaskTitle>
-      <TaskEditButton name="edit" size={25} color="tomato" />
+      <TaskTitle>{title}</TaskTitle>
+      <TaskEditButton name="edit" size={27} color="tomato" />
     </HeaderContainer>
     <TaskTitleLine></TaskTitleLine>
     <TaskBody>
-      <TaskBodyText>{props.taskBody}</TaskBodyText>
+      <TaskBodyText>{body}</TaskBodyText>
     </TaskBody>
-    <TaskFooter>
-      <ReminderBadgeStyled></ReminderBadgeStyled>
-    </TaskFooter>
+    <TaskFooter></TaskFooter>
+    {isDone && (
+      <DoneIconPlaceholder
+        show={!isDone}
+        name="done"
+        size={150}
+        color="white"
+      />
+    )}
   </Container>
 );
 
 const Container = styled.View`
   flex: 1;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
+  align-self: center;
   border: 2px solid tomato;
   border-radius: 20px;
-  padding: 10%;
-  padding-left: 2%;
+  min-height: 150px;
   width: 90%;
+  margin-bottom: 3%;
+  padding: 7px;
+  opacity: ${({ isDone }) => (isDone ? "0.5" : "1")};
+  background-color: ${({ isDone }) => (isDone ? "tomato" : "white")};
+`;
+
+const DoneIconPlaceholder = styled(IconM)`
+  position: absolute;
   align-self: center;
-  margin-top: 3%;
+  justify-content: center;
 `;
 
 const HeaderContainer = styled.View`
+  justify-content: space-around;
   flex-direction: row;
   width: 100%;
   min-height: 40px;
-  align-self: stretch;
-  margin-top: 10px;
 `;
 
 const TaskTitle = styled.Text`
   color: tomato;
-  width: 100%;
+  width: 80%;
   font-size: 30px;
   padding-left: 10px;
 `;
 
-const TaskEditButton = styled(Icon)``;
+const TaskEditButton = styled(IconF)`
+  align-self: flex-end;
+  justify-content: center;
+  margin-bottom: 0px;
+`;
 
 const TaskTitleLine = styled.View`
   background-color: tomato;
   height: 1.5px;
   margin-top: 4px;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 const TaskBody = styled.View`
   width: 100%;
   max-height: 40px;
   margin-top: 7px;
+  padding-left: 10px;
 `;
 
 const TaskBodyText = styled.Text`
@@ -70,9 +91,5 @@ const TaskBodyText = styled.Text`
 `;
 
 const TaskFooter = styled.View`
-  align-self: flex-end;
-`;
-
-const ReminderBadgeStyled = styled(ReminderBadge)`
   align-self: flex-end;
 `;

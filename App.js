@@ -3,6 +3,7 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import HomePage from "./app/HomePage";
+import Moment from "moment";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class App extends React.Component {
     this.state = {
       isReady: false
     };
+    Moment.locale("en");
   }
 
   async componentDidMount() {
