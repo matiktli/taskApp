@@ -8,7 +8,14 @@ export const TaskCard = ({ title, body, isDone }) => (
   <Container isDone={isDone}>
     <HeaderContainer>
       <TaskTitle>{title}</TaskTitle>
-      <TaskEditButton name="edit" size={27} color="tomato" />
+      {!isDone && (
+        <TaskEditButton
+          name="edit"
+          size={27}
+          color="tomato"
+          onPress={() => editTaskClicked()}
+        />
+      )}
     </HeaderContainer>
     <TaskTitleLine></TaskTitleLine>
     <TaskBody>
@@ -25,6 +32,10 @@ export const TaskCard = ({ title, body, isDone }) => (
     )}
   </Container>
 );
+
+function editTaskClicked() {
+  console.log("Edit task clicked");
+}
 
 const Container = styled.View`
   flex: 1;
@@ -48,10 +59,11 @@ const DoneIconPlaceholder = styled(IconM)`
 `;
 
 const HeaderContainer = styled.View`
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: row;
   width: 100%;
   min-height: 40px;
+  align-self: flex-start;
 `;
 
 const TaskTitle = styled.Text`
@@ -59,6 +71,8 @@ const TaskTitle = styled.Text`
   width: 80%;
   font-size: 30px;
   padding-left: 10px;
+  max-width: 80%;
+  flex-wrap: wrap;
 `;
 
 const TaskEditButton = styled(IconF)`
@@ -77,7 +91,6 @@ const TaskTitleLine = styled.View`
 
 const TaskBody = styled.View`
   width: 100%;
-  max-height: 40px;
   margin-top: 7px;
   padding-left: 10px;
 `;
@@ -88,6 +101,9 @@ const TaskBodyText = styled.Text`
   font-size: 20px;
   padding-left: 10px;
   padding-top: 5px;
+  padding-bottom: 3px;
+  flex-wrap: wrap;
+  max-height: 100%;
 `;
 
 const TaskFooter = styled.View`
