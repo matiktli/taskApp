@@ -52,6 +52,11 @@ export default class HomePage extends Component {
         done: false
       }
     ];
+
+    ITMES = ITEMS.sort(function(a, b) {
+      if (a.done) return 1;
+      else return -1;
+    });
     var currentDate = Moment(new Date()).format("DD-MM-YYYY");
     return (
       <Container>
@@ -96,6 +101,7 @@ const DateBar = styled.View`
   padding-top: 5px;
   padding-left: 20px;
   padding-right: 20px;
+  margin-bottom: 5px;
 `;
 
 const DateLabel = props => <DateText>{props.date}</DateText>;
@@ -109,21 +115,22 @@ const RightBarContainer = styled.View`
   flex-direction: row;
 `;
 
-const OnlyTodoIcon = styled(Icon)`
+const CheckIcon = styled(Icon)`
   margin-right: 20px;
   justify-content: flex-start;
 `;
 
 const CounterBadge = styled.Text`
   font-size: 15px;
+  font-weight: 900;
   background-color: white;
   justify-content: center;
   align-self: center;
   color: tomato;
   padding: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border: 1px tomato;
+  padding-left: 12px;
+  padding-right: 8px;
+  border: 1.6px tomato;
   border-radius: 15px;
 `;
 

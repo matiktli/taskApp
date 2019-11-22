@@ -7,19 +7,23 @@ import { ReminderBadge } from "./ReminderBadge";
 export const TaskCard = ({ title, body, isDone }) => (
   <Container isDone={isDone}>
     <HeaderContainer>
-      <TaskTitle>{title}</TaskTitle>
+      <TaskTitle adjustsFontSizeToFit numberOfLines={1}>
+        {title}
+      </TaskTitle>
       {!isDone && (
         <TaskEditButton
           name="edit"
-          size={27}
+          size={32}
           color="tomato"
-          onPress={() => editTaskClicked()}
+          onPress={isDone => editTaskClicked(isDone)}
         />
       )}
     </HeaderContainer>
     <TaskTitleLine></TaskTitleLine>
     <TaskBody>
-      <TaskBodyText>{body}</TaskBodyText>
+      <TaskBodyText adjustsFontSizeToFit numberOfLines={3}>
+        {body}
+      </TaskBodyText>
     </TaskBody>
     <TaskFooter></TaskFooter>
     {isDone && (
@@ -33,8 +37,9 @@ export const TaskCard = ({ title, body, isDone }) => (
   </Container>
 );
 
-function editTaskClicked() {
+function editTaskClicked(isDone) {
   console.log("Edit task clicked");
+  isDone = !isDone;
 }
 
 const Container = styled.View`
@@ -48,7 +53,7 @@ const Container = styled.View`
   width: 90%;
   margin-bottom: 3%;
   padding: 7px;
-  opacity: ${({ isDone }) => (isDone ? "0.5" : "1")};
+  opacity: ${({ isDone }) => (isDone ? "0.4" : "1")};
   background-color: ${({ isDone }) => (isDone ? "tomato" : "white")};
 `;
 
@@ -76,7 +81,7 @@ const TaskTitle = styled.Text`
 `;
 
 const TaskEditButton = styled(IconF)`
-  align-self: flex-end;
+  align-self: flex-start;
   justify-content: center;
   margin-bottom: 0px;
 `;

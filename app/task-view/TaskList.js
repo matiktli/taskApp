@@ -2,37 +2,50 @@ import * as React from "react";
 import styled from "styled-components/native";
 import { TaskCard } from "./TaskCard";
 import { AddNewTaskCard } from "./AddNewTaskCard";
-import { SafeAreaView, ScrollView, Text, TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Row
+} from "react-native";
 
 export const TaskList = props => (
   <SafeAreaViewContainer>
-    <Container>
-      {props.items.map(taskData => (
-        <TaskCardContainer
-          key={taskData.id}
-          onLongPress={() => longPress(taskData)}
-        >
-          <TaskCardStyled
+    <GradientTop colors={["white", "#FFD0BA"]} start={[0, 0.1]}>
+      <Container bounces={true} bouncesZoom>
+        {props.items.map(taskData => (
+          <TaskCardContainer
             key={taskData.id}
-            title={taskData.title ? taskData.title : "Default task title"}
-            body={
-              taskData.body
-                ? taskData.body
-                : "Default task body text here just for mock. This is used as quick description" +
-                  "asdasdddddddddddddddddddddddddddddddddddddddddd"
-            }
-            isDone={taskData.done}
-          ></TaskCardStyled>
-        </TaskCardContainer>
-      ))}
-      <AddNewTaskCard></AddNewTaskCard>
-    </Container>
+            delayPressIn={300}
+            onLongPress={() => longPress(taskData)}
+          >
+            <TaskCardStyled
+              key={taskData.id}
+              title={taskData.title ? taskData.title : "Default task title"}
+              body={
+                taskData.body
+                  ? taskData.body
+                  : "Default task body text here just for mock. This is used as quick description"
+              }
+              isDone={taskData.done}
+            ></TaskCardStyled>
+          </TaskCardContainer>
+        ))}
+        <AddNewTaskCard onPress={() => addTaskClicked()}></AddNewTaskCard>
+      </Container>
+    </GradientTop>
   </SafeAreaViewContainer>
 );
 
 function longPress(taskData) {
   console.log("clicked: ", taskData.done);
   taskData.done = !taskData.done;
+}
+
+function addTaskClicked() {
+  console.log("Task add clicked.");
 }
 
 const SafeAreaViewContainer = styled(SafeAreaView)`
@@ -43,7 +56,11 @@ const Container = styled(ScrollView)`
   padding-top: 10px;
 `;
 
-const TaskCardContainer = styled(TouchableOpacity)`
+const GradientTop = styled(LinearGradient)`
+  height: 100%;
+`;
+
+const TaskCardContainer = styled.TouchableOpacity`
   margin-bottom: 3%;
   min-height: 150px;
 `;
