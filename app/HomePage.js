@@ -9,12 +9,10 @@ import Moment from "moment";
 import SwipeablePanel from "rn-swipeable-panel";
 
 export default class HomePage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      swipeablePanelActive: false
-    };
-  }
+  state = {
+    swipeablePanelActive: false,
+    tasks: defaultTasks
+  };
 
   openPanel = () => {
     console.log("TODO");
@@ -25,64 +23,63 @@ export default class HomePage extends Component {
     this.setState({ swipeablePanelActive: false });
   };
 
-  render() {
-    var ITEMS = [
-      {
-        id: 1,
-        title: "Workout",
-        body: "I need to do tssssssssssssssssssssssshis to stay in shape",
-        done: false
-      },
-      {
-        id: 2,
-        title: "I need to do very loong stuff",
-        body: "And that will be smalssssssssssssssssssssssssssssssl",
-        done: true
-      },
-      {
-        id: 3,
-        title: "Workout",
-        body: "I need to do this to stay in shape",
-        done: true
-      },
-      {
-        id: 4,
-        title: "I need to do very loong stuff",
-        body: "And that will be small",
-        done: false
-      }
-    ];
+  getDoneTasksCount = () =>
+    this.state.tasks.filter(t => t.done === true).length;
 
-    ITMES = ITEMS.sort(function(a, b) {
-      if (a.done) return 1;
-      else return -1;
-    });
+  getSortedTasks = () => sortTasksByDone(this.state.tasks);
+
+  setTaskDone = (taskId, done) => {
+    this.setState(state => ({
+      ...state,
+      tasks: state.tasks.map(task => {
+        if (task.id === taskId) {
+          return {
+            ...task,
+            done: done
+          };
+        }
+        return task;
+      })
+    }));
+  };
+
+  render() {
+    const { tasks } = this.state;
+
     var currentDate = Moment(new Date()).format("DD-MM-YYYY");
     return (
       <Container>
         <Title> Get things done !</Title>
         <DateBar>
-          <DateLabel date={currentDate} onPress={this.openPanel}></DateLabel>
+          {
+            // it won't work, use touchable opacity if u need onPress etc
+          }
+          <DateText onPress={() => this.openPanel}>{currentDate} </DateText>
           <RightBarContainer>
             <CounterBadge onPress={() => showOnlyTodoClicked()}>
-              {getDoneTasks(ITEMS) + "/" + ITEMS.length}
+              {this.getDoneTasksCount() + "/" + tasks.length}
             </CounterBadge>
           </RightBarContainer>
         </DateBar>
-        <TaskListStyled items={ITEMS}></TaskListStyled>
+        <TaskListStyled
+          tasks={this.getSortedTasks()}
+          setTaskDone={this.setTaskDone}
+        ></TaskListStyled>
         <SwipeablePanel
           isActive={this.state.swipeablePanelActive}
           onClose={() => this.closePanel()}
         />
-        <Footer></Footer>
+        <Footer />
       </Container>
     );
   }
 }
 
-function getDoneTasks(tasks) {
-  return tasks.filter(ele => ele.done == true).length;
-}
+const sortTasksByDone = tasks =>
+  tasks.sort((a, b) => {
+    if (a.done) return 1;
+    else return -1;
+  });
 
 function showOnlyTodoClicked() {
   console.log("Show only todo clicked");
@@ -103,8 +100,6 @@ const DateBar = styled.View`
   padding-right: 20px;
   margin-bottom: 5px;
 `;
-
-const DateLabel = props => <DateText>{props.date}</DateText>;
 
 const DateText = styled.Text`
   color: tomato;
@@ -147,3 +142,30 @@ const TaskListStyled = styled(TaskList)`
 const Footer = styled.View`
   height: 100px;
 `;
+
+const defaultTasks = [
+  {
+    id: 1,
+    title: "Workout",
+    body: "I need to do tssssssssssssssssssssssshis to stay in shape",
+    done: false
+  },
+  {
+    id: 2,
+    title: "I need to do very loong stuff",
+    body: "And that will be smalssssssssssssssssssssssssssssssl",
+    done: true
+  },
+  {
+    id: 3,
+    title: "Workout",
+    body: "I need to do this to stay in shape",
+    done: true
+  },
+  {
+    id: 4,
+    title: "I need to do very loong stuff",
+    body: "And that will be small",
+    done: false
+  }
+];
