@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { TaskCard } from "./task-view/TaskCard";
 import styled from "styled-components/native";
 import { TaskList } from "./task-view/TaskList";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { View } from "react-native";
 import { Badge } from "react-native-elements";
 import Moment from "moment";
 import SwipeablePanel from "rn-swipeable-panel";
@@ -51,25 +49,22 @@ export default class HomePage extends Component {
       <Container>
         <Title> Get things done !</Title>
         <DateBar>
-          {
-            // it won't work, use touchable opacity if u need onPress etc
-          }
-          <DateText onPress={() => this.openPanel}>{currentDate} </DateText>
+          <DateText onPress={this.openPanel}>{currentDate} </DateText>
           <RightBarContainer>
             <CounterBadge onPress={() => showOnlyTodoClicked()}>
               {this.getDoneTasksCount() + "/" + tasks.length}
             </CounterBadge>
           </RightBarContainer>
         </DateBar>
-        <TaskListStyled
+        <TaskList
           tasks={this.getSortedTasks()}
           setTaskDone={this.setTaskDone}
-        ></TaskListStyled>
+        />
         <SwipeablePanel
           isActive={this.state.swipeablePanelActive}
-          onClose={() => this.closePanel()}
+          onClose={this.closePanel}
         />
-        <Footer />
+        {/* <Footer /> */}
       </Container>
     );
   }
@@ -88,8 +83,9 @@ function showOnlyTodoClicked() {
 const Container = styled.SafeAreaView`
   background-color: white;
   justify-content: flex-start;
-  padding-top: 5%;
-  padding-bottom: 10px;
+  margin-top: 20px;
+  flex: 1;
+  display: flex;
 `;
 
 const DateBar = styled.View`
@@ -98,7 +94,8 @@ const DateBar = styled.View`
   padding-top: 5px;
   padding-left: 20px;
   padding-right: 20px;
-  margin-bottom: 5px;
+  padding-bottom: 5px;
+  /*shortcut: padding: 5px 20px; */
 `;
 
 const DateText = styled.Text`
@@ -132,16 +129,12 @@ const CounterBadge = styled.Text`
 const Title = styled.Text`
   font-size: 35px;
   color: tomato;
-  padding-top: 20px;
+  margin-top: 20px;
 `;
 
-const TaskListStyled = styled(TaskList)`
-  height: 90%;
-`;
-
-const Footer = styled.View`
-  height: 100px;
-`;
+// const Footer = styled.View`
+//   height: 100px;
+// `;
 
 const defaultTasks = [
   {
