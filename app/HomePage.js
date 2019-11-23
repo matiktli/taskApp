@@ -24,7 +24,11 @@ export default class HomePage extends Component {
   getDoneTasksCount = () =>
     this.state.tasks.filter(t => t.done === true).length;
 
-  getSortedTasks = () => sortTasksByDone(this.state.tasks);
+  getSortedTasks = () =>
+    this.state.tasks.sort((a, b) => {
+      if (a.done) return 1;
+      else return -1;
+    });
 
   setTaskDone = (taskId, done) => {
     this.setState(state => ({
@@ -69,12 +73,6 @@ export default class HomePage extends Component {
     );
   }
 }
-
-const sortTasksByDone = tasks =>
-  tasks.sort((a, b) => {
-    if (a.done) return 1;
-    else return -1;
-  });
 
 function showOnlyTodoClicked() {
   console.log("Show only todo clicked");
