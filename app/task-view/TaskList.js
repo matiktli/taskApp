@@ -3,19 +3,21 @@ import styled from "styled-components/native";
 import { TaskCard } from "./TaskCard";
 import { AddNewTaskCard } from "./AddNewTaskCard";
 import { LinearGradient } from "expo-linear-gradient";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  Row
-} from "react-native";
 
-export const TaskList = props => (
-  <SafeAreaViewContainer>
+export const TaskList = props => {
+  const longPress = taskData => {
+    console.log("clicked: ", taskData.done);
+    props.setTaskDone(taskData.id, !taskData.done);
+  };
+
+  const addTaskClicked = () => {
+    console.log("Task add clicked.");
+  };
+
+  return (
     <GradientTop colors={["white", "#FFD0BA"]} start={[0, 0.1]}>
       <Container bounces={true} bouncesZoom>
-        {props.items.map(taskData => (
+        {props.tasks.map(taskData => (
           <TaskCardContainer
             key={taskData.id}
             delayPressIn={300}
@@ -36,28 +38,16 @@ export const TaskList = props => (
         <AddNewTaskCard onPress={() => addTaskClicked()}></AddNewTaskCard>
       </Container>
     </GradientTop>
-  </SafeAreaViewContainer>
-);
+  );
+};
 
-function longPress(taskData) {
-  console.log("clicked: ", taskData.done);
-  taskData.done = !taskData.done;
-}
-
-function addTaskClicked() {
-  console.log("Task add clicked.");
-}
-
-const SafeAreaViewContainer = styled(SafeAreaView)`
-  height: 80%;
-`;
-
-const Container = styled(ScrollView)`
+const Container = styled.ScrollView`
   padding-top: 10px;
+  flex: 1;
 `;
 
 const GradientTop = styled(LinearGradient)`
-  height: 100%;
+  flex: 1;
 `;
 
 const TaskCardContainer = styled.TouchableOpacity`

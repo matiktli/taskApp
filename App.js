@@ -28,6 +28,6 @@ export default class App extends React.Component {
       return <AppLoading />;
     }
 
-    return <HomePage></HomePage>;
+    return <HomePage />;
   }
 }
